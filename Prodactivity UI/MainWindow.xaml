@@ -45,11 +45,11 @@
                     <RotateTransform x:Name="Timer_Highlight_Rotate_pointer" Angle="0"/>
                 </Border.RenderTransform>
                 <Border.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <RadialGradientBrush GradientOrigin="0.5,-0.4">
                         <GradientStop Color="#FF10EC5A"/>
-                        <GradientStop Color="#FF3BE4D0" Offset="0.24"/>
-                        <GradientStop Color="Transparent" Offset="0.25"/>
-                    </LinearGradientBrush>
+                        <GradientStop Color="#FF3BE4D0" Offset="0.54"/>
+                        <GradientStop Offset="0.55"/>
+                    </RadialGradientBrush>
                 </Border.Background>
                 <Border.Triggers>
                     <EventTrigger RoutedEvent="Loaded">
