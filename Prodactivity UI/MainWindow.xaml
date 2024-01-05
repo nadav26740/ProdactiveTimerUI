@@ -26,11 +26,14 @@
             </Grid.RowDefinitions>
 
             <!--#region top Bar-->
-            <Border Grid.RowSpan="2" CornerRadius="25,25,0,0" Background="{DynamicResource FrontGround_Color_Light}"
-                    MouseDown="DragBar_Held"/>
+            <Border Grid.RowSpan="2" CornerRadius="25,25,0,0" 
+                    Background="{DynamicResource FrontGround_Color_Light}"
+                    MouseDown="DragBar_Held" IsHitTestVisible="True"/>
+            
             <Border Background="#FFF1342B" Grid.Row="1" 
                     Height="20" Width="20" HorizontalAlignment="Right"
-                    Margin="0,0,15,0" CornerRadius="25" BorderThickness="4" BorderBrush="#FFED4976"
+                    Margin="0,0,15,0" CornerRadius="25" BorderThickness="4" 
+                    BorderBrush="#FFED4976"
                     MouseDown="Exit_button_Pressed"/>
             <!--#endregion-->
             
@@ -54,11 +57,11 @@
                 <Border.Triggers>
                     <EventTrigger RoutedEvent="Loaded">
                         <BeginStoryboard>
-                            <Storyboard>
+                            <Storyboard x:Name="Spinner_storyBoard">
                                 <DoubleAnimation
                 Storyboard.TargetName="Timer_Highlight_Rotate_pointer"
                 Storyboard.TargetProperty="(RotateTransform.Angle)"
-                From="0.0" To="360" Duration="0:0:2.5" RepeatBehavior="Forever">
+                From="0.0" To="360" Duration="0:0:2">
                                     <DoubleAnimation.EasingFunction>
                                         <CubicEase EasingMode="EaseInOut"/>
                                     </DoubleAnimation.EasingFunction>
@@ -85,22 +88,25 @@
                            FontSize="25" FontFamily="Arial Black" Foreground="#FF06163E"/>
             </Border>
             <!--#endregion-->
-            
-            <!--#region Buttons-->
-            <Border CornerRadius="10" Grid.Row="3" HorizontalAlignment="Left" Margin="20,0,0,0"
+
+            <!--#region Buttons--> 
+            <Border x:Name="add_Minutes_Button"
+                    CornerRadius="10" Grid.Row="3" HorizontalAlignment="Left"
+                    Margin="20,0,0,0" MouseDown="add_Minutes_Button_Pressed"
                     Height="30" Width="100" Background="#FF2FE696" 
                     BorderBrush="#FF25B541" BorderThickness="3">
                 <TextBlock IsHitTestVisible="False" Text="+10 Minute" 
                            VerticalAlignment="Center" HorizontalAlignment="Center"
-                           FontSize="14" FontFamily="Arial Black" Foreground="#FF06163E"/>
+                           FontSize="14" FontFamily="Arial Black" 
+                           Foreground="#FF06163E"/>
             </Border>
 
-            <Border x:Name="add_Minutes_Button" CornerRadius="10" Grid.Row="3" 
+            <Border x:Name="StartStop_Button" CornerRadius="10" Grid.Row="3" 
                     HorizontalAlignment="Right" Margin="0,0,20,0"
                     Height="30" Width="100" Background="#FF2FE696" 
-                    BorderBrush="#FF25B541" BorderThickness="3">
-                
-                <TextBlock x:Name="StartStop_Button" IsHitTestVisible="False" Text="Start" 
+                    BorderBrush="#FF25B541" BorderThickness="3" 
+                    MouseDown="StartStop_Button_Pressed">
+                <TextBlock x:Name="startStop_Button_label" IsHitTestVisible="False" Text="Start" 
                        VerticalAlignment="Center" HorizontalAlignment="Center"
                        FontSize="16" FontFamily="Arial Black" Foreground="#FF06163E"/>
             </Border>
