@@ -1,0 +1,111 @@
+﻿<Window x:Class="Prodactivity_UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Prodactivity_UI" WindowStyle="None"
+        mc:Ignorable="d" AllowsTransparency="True"
+        Title="MainWindow" Height="400" Width="300"
+        Background="Transparent">
+    <Window.Resources>
+        <SolidColorBrush x:Key="FrontGround_Color_Light" Color="#FF8FBAC8"/>
+        <SolidColorBrush x:Key="Background_Color_Light" Color="#FFE2F3EC"/>
+    </Window.Resources>
+    
+    
+    <Border CornerRadius="30" Background="{DynamicResource Background_Color_Light}" 
+            BorderBrush="{DynamicResource FrontGround_Color_Light}" BorderThickness="5"
+            RenderOptions.BitmapScalingMode="Fant"
+            ClipToBounds="True">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="7*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <!--#region top Bar-->
+            <Border Grid.RowSpan="2" CornerRadius="25,25,0,0" Background="{DynamicResource FrontGround_Color_Light}"
+                    MouseDown="DragBar_Held"/>
+            <Border Background="#FFF1342B" Grid.Row="1" 
+                    Height="20" Width="20" HorizontalAlignment="Right"
+                    Margin="0,0,15,0" CornerRadius="25" BorderThickness="4" BorderBrush="#FFED4976"
+                    MouseDown="Exit_button_Pressed"/>
+            <!--#endregion-->
+            
+            <!--#region Timer circle-->
+            <Border Height="230" Width="230" Grid.Row="2" Background="{DynamicResource FrontGround_Color_Light}" CornerRadius="115" IsHitTestVisible="False"/>
+
+
+            <Border x:Name="TimerHighlight" Grid.Row="2" IsHitTestVisible="False"
+                    Height="220" Width="220"
+                    CornerRadius="110" RenderTransformOrigin="0.5,0.5">
+                <Border.RenderTransform>
+                    <RotateTransform x:Name="Timer_Highlight_Rotate_pointer" Angle="0"/>
+                </Border.RenderTransform>
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF10EC5A"/>
+                        <GradientStop Color="#FF3BE4D0" Offset="0.24"/>
+                        <GradientStop Color="Transparent" Offset="0.25"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                Storyboard.TargetName="Timer_Highlight_Rotate_pointer"
+                Storyboard.TargetProperty="(RotateTransform.Angle)"
+                From="0.0" To="360" Duration="0:0:2.5" RepeatBehavior="Forever">
+                                    <DoubleAnimation.EasingFunction>
+                                        <CubicEase EasingMode="EaseInOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Border.Triggers>
+
+            </Border>
+
+            <Border Height="180" Width="180" Grid.Row="2" 
+                    IsHitTestVisible="False" Background="{DynamicResource FrontGround_Color_Light}" CornerRadius="90"/>
+            <Border Height="170" Width="170" Grid.Row="2" IsHitTestVisible="False"
+                CornerRadius="85" Background="{DynamicResource Background_Color_Light}"/>
+            <!--#endregion-->
+            
+            <!--#region Timer Label-->
+            <Border Background="#FF2FE696" Grid.Row="2" VerticalAlignment="Bottom" IsHitTestVisible="False"
+                    Height="60" Width="150" Margin="0,0,0,30"
+                    CornerRadius="20" BorderBrush="#FF25B541" BorderThickness="5">
+                <TextBlock x:Name="TimeLabel"
+                    Text="00:00:00" VerticalAlignment="Center" HorizontalAlignment="Center"
+                           FontSize="25" FontFamily="Arial Black" Foreground="#FF06163E"/>
+            </Border>
+            <!--#endregion-->
+            
+            <!--#region Buttons-->
+            <Border CornerRadius="10" Grid.Row="3" HorizontalAlignment="Left" Margin="20,0,0,0"
+                    Height="30" Width="100" Background="#FF2FE696" 
+                    BorderBrush="#FF25B541" BorderThickness="3">
+                <TextBlock IsHitTestVisible="False" Text="+10 Minute" 
+                           VerticalAlignment="Center" HorizontalAlignment="Center"
+                           FontSize="14" FontFamily="Arial Black" Foreground="#FF06163E"/>
+            </Border>
+
+            <Border x:Name="add_Minutes_Button" CornerRadius="10" Grid.Row="3" 
+                    HorizontalAlignment="Right" Margin="0,0,20,0"
+                    Height="30" Width="100" Background="#FF2FE696" 
+                    BorderBrush="#FF25B541" BorderThickness="3">
+                
+                <TextBlock x:Name="StartStop_Button" IsHitTestVisible="False" Text="Start" 
+                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                       FontSize="16" FontFamily="Arial Black" Foreground="#FF06163E"/>
+            </Border>
+            <!--#endregion-->
+        </Grid>
+
+    </Border>
+</Window>
