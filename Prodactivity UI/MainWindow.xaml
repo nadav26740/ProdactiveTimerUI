@@ -8,24 +8,67 @@
         Title="MainWindow" Height="400" Width="300"
         Background="Transparent">
     <Window.Resources>
-        <SolidColorBrush x:Key="FrontGround_Color_Light" Color="#FF302656"/>
-        <SolidColorBrush x:Key="Background_Color_Light" Color="#FF181029"/>
-        <SolidColorBrush x:Key="Highlight_Color_Main" Color="#FF3F1DBD"/>
-        <SolidColorBrush x:Key="Highlight_Color_Secondary" Color="#FF5F51C3"/>
-        <SolidColorBrush x:Key="Text_Color" Color="#FFDACFEC"/>
+        <!--#region Dark Colors-->
+        <SolidColorBrush x:Key="FrontGround_Color_Dark" Color="#FF302656"/>
+        <SolidColorBrush x:Key="Highlight_Color_Main_Dark" Color="#FF3F1DBD"/>
+        <SolidColorBrush x:Key="Highlight_Color_Secondary_Dark" Color="#FF5F51C3"/>
+        <SolidColorBrush x:Key="Text_Color_Dark" Color="#FFDACFEC"/>
+
+        <LinearGradientBrush x:Key="Background_gradient_Dark"
+                            EndPoint="-0.3,-0.3" StartPoint="1.25,1.25">
+            <GradientStop Color="#FF2E1944"/>
+            <GradientStop Color="#FF181029" Offset="1"/>
+        </LinearGradientBrush>
+
+        <RadialGradientBrush x:Key="Spinner_Color_Dark" GradientOrigin="0.5,-0.4">
+            <GradientStop Color="#FF6A4CC1"/>
+            <GradientStop Color="#FF963AD8" Offset="0.54"/>
+            <GradientStop Offset="0.55"/>
+        </RadialGradientBrush>
+        <!--#endregion-->
+
+        <!--#region Light Colors-->
+        <SolidColorBrush x:Key="FrontGround_Color_Light" Color="#FF8FBAC8"/>
+        <SolidColorBrush x:Key="Highlight_Color_Main_Light" Color="#FF2FE696"/>
+        <SolidColorBrush x:Key="Highlight_Color_Secondary_Light" Color="#FF25B541"/>
+        <SolidColorBrush x:Key="Text_Color_Light" Color="#FF06163E"/>
+
+        <LinearGradientBrush x:Key="Background_gradient_Light"
+                            EndPoint="-0.3,-0.3" StartPoint="1.25,1.25">
+            <GradientStop Color="#FFE2F3EC"/>
+            <GradientStop Color="#FFA5D4E4" Offset="1"/>
+        </LinearGradientBrush>
+
+        <RadialGradientBrush x:Key="Spinner_Color_Light" GradientOrigin="0.5,-0.4">
+            <GradientStop Color="#FF10EC5A"/>
+            <GradientStop Color="#FF3BE4D0" Offset="0.54"/>
+            <GradientStop Offset="0.55"/>
+        </RadialGradientBrush>
+        <!--#endregion-->
+
+        <!--#region Main Colors-->
+        <SolidColorBrush x:Key="FrontGround_Color" Color="#FF8FBAC8"/>
+        <SolidColorBrush x:Key="Highlight_Color_Main" Color="#FF2FE696"/>
+        <SolidColorBrush x:Key="Highlight_Color_Secondary" Color="#FF25B541"/>
+        <SolidColorBrush x:Key="Text_Color" Color="#FF06163E"/>
+        <LinearGradientBrush x:Key="Background_gradient"
+            EndPoint="-0.3,-0.3" StartPoint="1.25,1.25">
+            <GradientStop Color="#FFE2F3EC"/>
+            <GradientStop Color="#FFA5D4E4" Offset="1"/>
+        </LinearGradientBrush>
+
+        <RadialGradientBrush x:Key="Spinner_Color" GradientOrigin="0.5,-0.4">
+            <GradientStop Color="#FF10EC5A"/>
+            <GradientStop Color="#FF3BE4D0" Offset="0.54"/>
+            <GradientStop Offset="0.55"/>
+        </RadialGradientBrush>
+
+        <!--#endregion-->
     </Window.Resources>
-
-
-    <Border CornerRadius="30" 
-            BorderBrush="{StaticResource FrontGround_Color_Light}" BorderThickness="5"
+    <Border CornerRadius="30" x:Name="MainBorder"
+            BorderBrush="{DynamicResource FrontGround_Color}" BorderThickness="5"
             RenderOptions.BitmapScalingMode="Fant"
-            ClipToBounds="True">
-        <Border.Background>
-            <LinearGradientBrush EndPoint="-0.3,-0.3" StartPoint="1.25,1.25">
-                <GradientStop Color="#FF2E1944"/>
-                <GradientStop Color="#FF181029" Offset="1"/>
-            </LinearGradientBrush>
-        </Border.Background>
+            ClipToBounds="True" Background="{DynamicResource Background_gradient}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="10"/>
@@ -35,11 +78,51 @@
             </Grid.RowDefinitions>
 
             <!--#region top Bar-->
-            <Border Grid.RowSpan="2" CornerRadius="25,25,0,0" 
-                    Background="{StaticResource FrontGround_Color_Light}"
+            <Border x:Name="DragBar"
+                    Grid.RowSpan="2" CornerRadius="25,25,0,0"  
+                    Background="{DynamicResource FrontGround_Color}"
                     MouseDown="DragBar_Held" IsHitTestVisible="True"/>
 
-            <Border Background="#FFF1342B" Grid.Row="1" 
+            <Border x:Name="Dark_Mode_Switcher" Background="#FF2FE696"
+                    CornerRadius="15" Height="27" Margin="10,0"
+                    MouseDown="Dark_Mode_Switcher_MouseDown"
+                    Grid.Row="1" HorizontalAlignment="Left" Width="50">
+                <Border x:Name="Dark_Mode_Switcher_tumb"
+                        Height="20" Width="20" IsHitTestVisible="False"
+                        HorizontalAlignment="Left" Margin="28,0,0,0"
+                        Background="#FFDACFEC" CornerRadius="13">
+                    <Border.Triggers>
+                        <EventTrigger RoutedEvent="MouseDown">
+                            <BeginStoryboard>
+                                <Storyboard x:Name="DarkMode_Switcher_storyBoard">
+                                    <ThicknessAnimation 
+                                        x:Name="DarkMode_Switcher_storyBoard_margin"
+                                        Storyboard.TargetName="Dark_Mode_Switcher_tumb"
+                                        Storyboard.TargetProperty="(Border.Margin)"
+                                        Duration="0:0:0.3"
+                                        To="28,0,0,0"/>
+                                    <ColorAnimation 
+                                        x:Name="DarkMode_Switcher_storyBoard_tumb"
+                                        Storyboard.TargetName="Dark_Mode_Switcher_tumb"
+                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                        Duration="0:0:0.3"
+                                        To="#123123ff"/>
+                                    <ColorAnimation 
+                                        x:Name="DarkMode_Switcher_storyBoard_background"
+                                        Storyboard.TargetName="Dark_Mode_Switcher"
+                                        Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                        Duration="0:0:0.3"
+                                        To="#123123ff"/>
+
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Border.Triggers>
+                </Border>
+            </Border>
+
+            <Border x:Name="ExitButton"
+                    Background="#FFF1342B" Grid.Row="1" 
                     Height="20" Width="20" HorizontalAlignment="Right"
                     Margin="0,0,15,0" CornerRadius="25" BorderThickness="4" 
                     BorderBrush="#FFED4976"
@@ -47,22 +130,20 @@
             <!--#endregion-->
 
             <!--#region Timer circle-->
-            <Border Height="230" Width="230" Grid.Row="2" Background="{StaticResource FrontGround_Color_Light}" CornerRadius="115" IsHitTestVisible="False"/>
+            <Border x:Name="Spinner_Outline"
+                    Height="230" Width="230" 
+                    Grid.Row="2" Background="{DynamicResource FrontGround_Color}"
+                    CornerRadius="115" IsHitTestVisible="False"/>
 
 
-            <Border x:Name="TimerHighlight" Grid.Row="2" IsHitTestVisible="False"
-                    Height="220" Width="220"
+            <Border x:Name="TimerHighlight" 
+                    Grid.Row="2" IsHitTestVisible="False"
+                    Height="220" Width="220" 
+                    Background="{DynamicResource Spinner_Color}"
                     CornerRadius="110" RenderTransformOrigin="0.5,0.5">
                 <Border.RenderTransform>
                     <RotateTransform x:Name="Timer_Highlight_Rotate_pointer" Angle="0"/>
                 </Border.RenderTransform>
-                <Border.Background>
-                    <RadialGradientBrush GradientOrigin="0.5,-0.4">
-                        <GradientStop Color="#FF6A4CC1"/>
-                        <GradientStop Color="#FF963AD8" Offset="0.54"/>
-                        <GradientStop Offset="0.55"/>
-                    </RadialGradientBrush>
-                </Border.Background>
                 <Border.Triggers>
                     <EventTrigger RoutedEvent="Loaded">
                         <BeginStoryboard>
@@ -82,19 +163,31 @@
 
             </Border>
 
-            <Border Height="180" Width="180" Grid.Row="2" 
-                    IsHitTestVisible="False" Background="{StaticResource FrontGround_Color_Light}" CornerRadius="90"/>
-            <Border Height="170" Width="170" Grid.Row="2" IsHitTestVisible="False"
-                CornerRadius="85" Background="{StaticResource Background_Color_Light}"/>
+            <Border x:Name="Spinner_Inline"
+                    Height="180" Width="180" Grid.Row="2" 
+                    IsHitTestVisible="False" 
+                    Background="{DynamicResource FrontGround_Color}" 
+                    CornerRadius="90"/>
+            <Border x:Name="Spinner_HidingCircle"
+                    Height="170" Width="170" Grid.Row="2" IsHitTestVisible="False"
+                    CornerRadius="85" 
+                    Background="{DynamicResource Background_gradient}"/>
             <!--#endregion-->
 
             <!--#region Timer Label-->
-            <Border Background="{StaticResource Highlight_Color_Main}" Grid.Row="2" VerticalAlignment="Bottom" IsHitTestVisible="False"
+            <Border x:Name="Timer_Border"
+                    Background="{DynamicResource Highlight_Color_Main}" 
+                    Grid.Row="2" VerticalAlignment="Bottom" IsHitTestVisible="False"
                     Height="60" Width="150" Margin="0,0,0,30"
-                    CornerRadius="20" BorderBrush="{StaticResource Highlight_Color_Secondary}" BorderThickness="5">
+                    CornerRadius="20" 
+                    BorderBrush="{DynamicResource Highlight_Color_Secondary}" 
+                    BorderThickness="5">
+
                 <TextBlock x:Name="TimeLabel"
-                    Text="00:00:00" VerticalAlignment="Center" HorizontalAlignment="Center"
-                           FontSize="25" FontFamily="Arial Black" Foreground="{StaticResource Text_Color}"/>
+                    Text="00:00:00" VerticalAlignment="Center" 
+                           HorizontalAlignment="Center"
+                           FontSize="25" FontFamily="Arial Black" 
+                           Foreground="{DynamicResource Text_Color}"/>
             </Border>
             <!--#endregion-->
 
@@ -102,22 +195,33 @@
             <Border x:Name="add_Minutes_Button"
                     CornerRadius="10" Grid.Row="3" HorizontalAlignment="Left"
                     Margin="20,0,0,0" MouseDown="add_Minutes_Button_Pressed"
-                    Height="30" Width="100" Background="{StaticResource Highlight_Color_Main}" 
-                    BorderBrush="{StaticResource Highlight_Color_Secondary}" BorderThickness="3">
-                <TextBlock IsHitTestVisible="False" Text="+10 Minute" 
+                    Height="30" Width="100" 
+                    Background="{DynamicResource Highlight_Color_Main}" 
+                    BorderBrush="{DynamicResource Highlight_Color_Secondary}" 
+                    BorderThickness="3">
+
+                <TextBlock x:Name="AddMinLabel"
+                           IsHitTestVisible="False" Text="+10 Minute"
                            VerticalAlignment="Center" HorizontalAlignment="Center"
                            FontSize="14" FontFamily="Arial Black" 
-                           Foreground="{StaticResource Text_Color}"/>
+                           Foreground="{DynamicResource Text_Color}"/>
             </Border>
 
-            <Border x:Name="StartStop_Button" CornerRadius="10" Grid.Row="3" 
+            <Border x:Name="StartStop_Button"
+                    CornerRadius="10" Grid.Row="3" 
                     HorizontalAlignment="Right" Margin="0,0,20,0"
-                    Height="30" Width="100" Background="{StaticResource Highlight_Color_Main}" 
-                    BorderBrush="{StaticResource Highlight_Color_Secondary}" BorderThickness="3" 
+                    Height="30" Width="100" 
+                    Background="{DynamicResource Highlight_Color_Main}" 
+                    BorderBrush="{DynamicResource Highlight_Color_Secondary}" 
+                    BorderThickness="3" 
                     MouseDown="StartStop_Button_Pressed">
-                <TextBlock x:Name="startStop_Button_label" IsHitTestVisible="False" Text="Start" 
-                       VerticalAlignment="Center" HorizontalAlignment="Center"
-                       FontSize="16" FontFamily="Arial Black" Foreground="{StaticResource Text_Color}"/>
+
+                <TextBlock x:Name="startStop_Button_label" 
+                           IsHitTestVisible="False" Text="Start" 
+                           VerticalAlignment="Center" HorizontalAlignment="Center"
+                           FontSize="16" 
+                           FontFamily="Arial Black" 
+                           Foreground="{DynamicResource Text_Color}"/>
             </Border>
             <!--#endregion-->
         </Grid>
