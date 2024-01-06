@@ -84,12 +84,12 @@
                     MouseDown="DragBar_Held" IsHitTestVisible="True"/>
 
             <Border x:Name="Dark_Mode_Switcher" Background="#FF2FE696"
-                    CornerRadius="15" Height="27" Margin="10,0"
+                    CornerRadius="12.5" Height="25" Margin="10,0"
                     MouseDown="Dark_Mode_Switcher_MouseDown"
                     Grid.Row="1" HorizontalAlignment="Left" Width="50">
                 <Border x:Name="Dark_Mode_Switcher_tumb"
                         Height="20" Width="20" IsHitTestVisible="False"
-                        HorizontalAlignment="Left" Margin="28,0,0,0"
+                        HorizontalAlignment="Left" Margin="2.5,0,0,0"
                         Background="#FFDACFEC" CornerRadius="13">
                     <Border.Triggers>
                         <EventTrigger RoutedEvent="MouseDown">
@@ -113,7 +113,6 @@
                                         Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                                         Duration="0:0:0.3"
                                         To="#123123ff"/>
-
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>

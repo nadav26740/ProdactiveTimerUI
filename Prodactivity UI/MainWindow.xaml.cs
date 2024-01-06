@@ -101,7 +101,7 @@ namespace Prodactivity_UI
             // storyboard Properties
             Storyboard sb = DarkMode_Switcher_storyBoard;
 
-            DarkMode_Switcher_storyBoard_margin.To = new Thickness((isDarkMode ? 2 : 28), 0, 0, 0);
+            DarkMode_Switcher_storyBoard_margin.To = new Thickness((isDarkMode ? 2.5 : 27.5), 0, 0, 0);
 
             DarkMode_Switcher_storyBoard_tumb.To = (isDarkMode ?
                 ((SolidColorBrush)this.Resources["Text_Color_Dark"]).Color :
