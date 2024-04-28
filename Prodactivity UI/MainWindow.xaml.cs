@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
@@ -22,7 +25,46 @@ namespace Prodactivity_UI
         {
             InitializeComponent();
             ticker.Tick += On_Tick;
+
+            // TODO: need to create a fix that when window is out of focus stop animation!
+            StateChanged += WindowStateChanged;
+            IsVisibleChanged += WindowVisabilityChanged;
+
+            Loaded += OnStartUp;
             ticker.Interval = TimeSpan.FromSeconds(1);
+        }
+
+        private void WindowVisabilityChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            Debug.WriteLine("[DEBUG]" + e.Property.Name + " changed value: " + e.NewValue);
+        }
+
+        private void OnStartUp(object sender, RoutedEventArgs e)
+        {
+            int tier = (RenderCapability.Tier >> 0);
+            RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+            Debug.Write("[DEBUG]System Graphic tier: " + (RenderCapability.Tier >> 16) + "\n");
+            // RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+            
+        }
+
+        private void WindowStateChanged(object sender, EventArgs? e)
+        {
+            Debug.WriteLine("[DEBUG]Window state has been changed");
+            if (ticker_status)
+            {
+                if (WindowState == WindowState.Minimized)
+                {
+                    Spinner_storyBoard.Pause();
+                    Debug.Write("[DEBUG]minimized spin\n");
+                }
+                else
+                {
+                    Spinner_storyBoard.Resume();
+                    Show_Duration_In_UI();
+                    Debug.Write("[DEBUG]Got Focus resume spining\n");
+                }
+            }
         }
 
         private void Exit_button_Pressed(object sender, MouseButtonEventArgs e)
@@ -39,20 +81,21 @@ namespace Prodactivity_UI
 
         void On_Tick(object sender, EventArgs e)
         {
-            if (Duration.Ticks > 0)
-            {
-                Duration -= TimeSpan.FromSeconds(1); // taking of second
-            }
-            else
+            if (Duration.Ticks == 0)
             {
                 ChangeTickerStatus();
             }
-            Show_Duration_In_UI();
+            else
+            {
+                Duration -= TimeSpan.FromSeconds(1); // taking of second
+                Show_Duration_In_UI();
+            }
         }
 
         void Show_Duration_In_UI()
         {
-            TimeLabel.Text = Duration.ToString("hh") + ":" + Duration.ToString("mm") + ":" + Duration.ToString("ss");
+            if (WindowState != WindowState.Minimized)
+                TimeLabel.Text = Duration.ToString("hh") + ":" + Duration.ToString("mm") + ":" + Duration.ToString("ss");
         }
 
         private void add_Minutes_Button_Pressed(object sender, MouseButtonEventArgs e)

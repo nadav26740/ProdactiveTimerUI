@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Prodactivity_UI" WindowStyle="None"
         mc:Ignorable="d" AllowsTransparency="True"
         Title="MainWindow" Height="400" Width="300"
+        
         Background="Transparent">
     <Window.Resources>
         <!--#region Dark Colors-->
@@ -95,7 +96,7 @@
                         <EventTrigger RoutedEvent="MouseDown">
                             <BeginStoryboard>
                                 <Storyboard x:Name="DarkMode_Switcher_storyBoard">
-                                    <ThicknessAnimation 
+                                    <ThicknessAnimation
                                         x:Name="DarkMode_Switcher_storyBoard_margin"
                                         Storyboard.TargetName="Dark_Mode_Switcher_tumb"
                                         Storyboard.TargetProperty="(Border.Margin)"
@@ -135,7 +136,7 @@
                     CornerRadius="115" IsHitTestVisible="False"/>
 
 
-            <Border x:Name="TimerHighlight" 
+            <Border x:Name="TimerHighlight"
                     Grid.Row="2" IsHitTestVisible="False"
                     Height="220" Width="220" 
                     Background="{DynamicResource Spinner_Color}"
@@ -146,11 +147,14 @@
                 <Border.Triggers>
                     <EventTrigger RoutedEvent="Loaded">
                         <BeginStoryboard>
-                            <Storyboard x:Name="Spinner_storyBoard">
+                            <Storyboard x:Name="Spinner_storyBoard" Timeline.DesiredFrameRate="60"
+                                        RenderOptions.BitmapScalingMode="Fant"
+                                        RenderOptions.EdgeMode="Aliased"
+                                        RenderOptions.CachingHint="Unspecified">
                                 <DoubleAnimation
-                Storyboard.TargetName="Timer_Highlight_Rotate_pointer"
-                Storyboard.TargetProperty="(RotateTransform.Angle)"
-                From="0.0" To="360" Duration="0:0:2">
+                                        Storyboard.TargetName="Timer_Highlight_Rotate_pointer"
+                                        Storyboard.TargetProperty="(RotateTransform.Angle)" RenderOptions.BitmapScalingMode="LowQuality"
+                                        From="0.0" To="360" Duration="0:0:2">
                                     <DoubleAnimation.EasingFunction>
                                         <CubicEase EasingMode="EaseInOut"/>
                                     </DoubleAnimation.EasingFunction>
